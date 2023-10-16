@@ -9,6 +9,9 @@ require 'reshape'
 require 'rspec'
 require 'webmock/rspec'
 require 'vcr'
+require 'byebug'
+require 'oauth2'
+require 'dotenv/load'
 
 VCR.configure do |c|
   c.cassette_library_dir = 'spec/fixtures/cassettes'
@@ -58,7 +61,7 @@ def fixture(file)
 end
 
 def shapeways_url(url)
-  "http://api.shapeways.com/#{url}/#{@client.api_version}"
+  "https://api.shapeways.com/#{url}/#{@client.api_version}"
 end
 
 def shapeways_client
@@ -67,5 +70,24 @@ def shapeways_client
     consumer_secret: ENV['SHAPEWAYS_CONSUMER_SECRET'], 
     oauth_token: ENV['SHAPEWAYS_OAUTH_TOKEN'], 
     oauth_secret: ENV['SHAPEWAYS_OAUTH_SECRET']
+  })
+end
+
+def shapeways_oauth_client
+
+  key = ENV['SHAPEWAYS_CONSUMER_TOKEN']
+  secret = ENV['SHAPEWAYS_CONSUMER_SECRET']
+
+  client = OAuth2::Client.new(key, secret, site: "https://api.shapeways.com", token_url: '/oauth2/token')
+
+  access = client.client_credentials.get_token
+
+  token = access.token
+
+  Reshape::Client.new({
+    consumer_token: nil,
+    consumer_secret: nil,
+    oauth_token: token,
+    oauth_secret: nil,
   })
 end
