@@ -1,6 +1,5 @@
-require 'countries/global'
+#require 'countries/global'
 
-  
 module Reshape
   class Client
     module Orders
