@@ -8,7 +8,7 @@ describe Reshape::Client::Orders, feature: true, js: true, vcr: { record: :new_e
   end
 
   after(:each) do
-    shapeways_oauth_client.reset
+    Reshape.reset
   end
 
   it 'should get all orders' do

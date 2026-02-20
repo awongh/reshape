@@ -29,11 +29,11 @@ describe Reshape::Client::Models do
   end
 
   it 'should add a new model' do
-    pending 'Need to add STL file to fixtures'
+    skip 'Need to add STL file to fixtures'
   end
 
   it 'should delete the model details in json' do
-    pending 'Need to record deletion of a specific model id'
+    skip 'Need to record deletion of a specific model id'
   end
 
   it 'should return info about a specific model in json' do
@@ -55,7 +55,7 @@ describe Reshape::Client::Models do
   end
 
   it 'should add a file to the model' do
-    pending 'Need to add STL file to fixtures'
+    skip 'Need to add STL file to fixtures'
   end
 
   it 'should return a model file by a specific version number' do
@@ -68,6 +68,6 @@ describe Reshape::Client::Models do
   end
 
   it 'should add a photo to the model' do
-    pending 'Need to add JPG file to fixtures'
+    skip 'Need to add JPG file to fixtures'
   end
 end
