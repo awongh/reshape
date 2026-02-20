@@ -14,14 +14,14 @@ Gem::Specification.new do |gem|
   gem.summary       = 'A client for the Shapeways 3D printing API.'
   gem.homepage      = 'https://github.com/phy5ics/reshape'
 
-  gem.required_ruby_version = '>= 3.4'
+  gem.required_ruby_version = ['>= 3.2.10', '< 5']
 
   gem.files         = `git ls-files`.split($INPUT_RECORD_SEPARATOR)
   gem.executables   = gem.files.grep(%r{^bin/}).map { |f| File.basename(f) }
   gem.require_paths = ['lib']
 
   gem.add_dependency 'faraday', '~> 2.0'
-  gem.add_dependency 'faraday-mashify', '~> 0.1'
+  gem.add_dependency 'faraday-mashify', '~> 1.0'
   gem.add_dependency 'hashie', '~> 5.0'
 
   gem.metadata['rubygems_mfa_required'] = 'true'
