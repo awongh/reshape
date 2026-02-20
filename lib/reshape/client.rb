@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'reshape/configuration'
 require 'reshape/connection'
 require 'reshape/request'
@@ -11,10 +13,9 @@ require 'reshape/client/categories'
 
 module Reshape
   class Client
-    attr_accessor(*Configuration::VALID_OPTIONS_KEYS)
-    attr_accessor :connection_options
+    attr_accessor(*Configuration::VALID_OPTIONS_KEYS, :connection_options)
 
-    def initialize(options={},connection_options={})
+    def initialize(options = {}, connection_options = {})
       self.connection_options = connection_options
 
       options = Reshape.options.merge(options)
@@ -22,7 +23,7 @@ module Reshape
         send("#{key}=", options[key])
       end
     end
-    
+
     include Reshape::Configuration
     include Reshape::Connection
     include Reshape::Request
@@ -32,6 +33,5 @@ module Reshape
     include Reshape::Client::Printers
     include Reshape::Client::Price
     include Reshape::Client::Categories
-    
   end
 end

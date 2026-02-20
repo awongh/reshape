@@ -1,17 +1,20 @@
+# frozen_string_literal: true
+
 require 'faraday'
 require 'reshape/version'
 
 module Reshape
   module Configuration
-    VALID_OPTIONS_KEYS = [
-      :adapter,
-      :api_version,
-      :api_endpoint,
-      :web_endpoint,
-      :proxy,
-      :oauth_token,
-      :response_format,
-      :user_agent].freeze
+    VALID_OPTIONS_KEYS = %i[
+      adapter
+      api_version
+      api_endpoint
+      web_endpoint
+      proxy
+      oauth_token
+      response_format
+      user_agent
+    ].freeze
 
     DEFAULT_ADAPTER = Faraday.default_adapter
     DEFAULT_API_VERSION = 'v1'
@@ -31,15 +34,15 @@ module Reshape
     end
 
     def options
-      VALID_OPTIONS_KEYS.inject({}){|o,k| o.merge!(k => send(k)) }
+      VALID_OPTIONS_KEYS.each_with_object({}) { |k, o| o[k] = send(k) }
     end
 
     def api_endpoint=(value)
-      @api_endpoint = File.join(value, "")
+      @api_endpoint = File.join(value, '')
     end
 
     def web_endpoint=(value)
-      @web_endpoint = File.join(value, "")
+      @web_endpoint = File.join(value, '')
     end
 
     def reset

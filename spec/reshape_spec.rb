@@ -1,4 +1,5 @@
-# -*- encoding: utf-8 -*-
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe Reshape do
@@ -6,16 +7,15 @@ describe Reshape do
     Reshape.reset
   end
 
-  describe ".respond_to?" do
-    it "should be true if method exists" do
-      Reshape.respond_to?(:new, true).should be true
+  describe '.respond_to?' do
+    it 'should be true if method exists' do
+      expect(Reshape.respond_to?(:new, true)).to be true
     end
   end
 
-  describe ".new" do
-    it "should be a Reshape::Client" do
-      Reshape.new.should be_a Reshape::Client
+  describe '.new' do
+    it 'should be a Reshape::Client' do
+      expect(Reshape.new).to be_a Reshape::Client
     end
   end
-
 end

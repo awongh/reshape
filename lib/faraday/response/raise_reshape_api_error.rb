@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 require 'faraday'
-require 'multi_json'
+require 'json'
 
 module Faraday
   class Response::RaiseReshapeApiError < Response::Middleware
@@ -28,14 +30,12 @@ module Faraday
 
     def error_message(response)
       message = if (body = response[:body]) && !body.empty?
-        if body.is_a?(String)
-          body = MultiJson.load(body, :symbolize_keys => true)
-        end
-        ": #{body[:error] || body[:message] || ''}"
-      else
-        ''
-      end
-      "#{response[:method].to_s.upcase} #{response[:url].to_s}: #{response[:status]}#{message}"
+                  body = JSON.parse(body, symbolize_names: true) if body.is_a?(String)
+                  ": #{body[:error] || body[:message] || ''}"
+                else
+                  ''
+                end
+      "#{response[:method].to_s.upcase} #{response[:url]}: #{response[:status]}#{message}"
     end
   end
 end

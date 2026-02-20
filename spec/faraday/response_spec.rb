@@ -1,15 +1,16 @@
-# -*- encoding: utf-8 -*-
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe Faraday::Response do
   before do
     @client = Reshape::Client.new({
-      consumer_token: ENV['SHAPEWAYS_CONSUMER_TOKEN'], 
-      consumer_secret: ENV['SHAPEWAYS_CONSUMER_SECRET'], 
-      oauth_token: ENV['SHAPEWAYS_OAUTH_TOKEN'], 
-      oauth_secret: ENV['SHAPEWAYS_OAUTH_SECRET'], 
-      proxy: 'http://localhost:8888'
-    })
+                                    consumer_token: ENV.fetch('SHAPEWAYS_CONSUMER_TOKEN', nil),
+                                    consumer_secret: ENV.fetch('SHAPEWAYS_CONSUMER_SECRET', nil),
+                                    oauth_token: ENV.fetch('SHAPEWAYS_OAUTH_TOKEN', nil),
+                                    oauth_secret: ENV.fetch('SHAPEWAYS_OAUTH_SECRET', nil),
+                                    proxy: 'http://localhost:8888'
+                                  })
   end
 
   {
@@ -20,20 +21,18 @@ describe Faraday::Response do
     406 => Reshape::NotAcceptable,
     422 => Reshape::UnprocessableEntity,
     500 => Reshape::InternalServerError,
-    # 501 => Reshape::NotImplemented,
     502 => Reshape::BadGateway,
-    503 => Reshape::ServiceUnavailable,
+    503 => Reshape::ServiceUnavailable
   }.each do |status, exception|
     context "when HTTP status is #{status}" do
-
       before do
-        stub_get('orders/cart').to_return(:status => status)
+        stub_get('orders/cart').to_return(status: status)
       end
 
       it "should raise #{exception.name} error" do
-        lambda do
+        expect do
           @client.cart
-        end.should raise_error(exception)
+        end.to raise_error(exception)
       end
     end
   end

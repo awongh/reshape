@@ -1,20 +1,20 @@
-require 'multi_json'
+# frozen_string_literal: true
 
 module Reshape
   module Request
-    def get(path, options={}, raw=false, force_urlencoded=false)
+    def get(path, options = {}, raw = false, force_urlencoded = false)
       request(:get, path, options, raw, force_urlencoded)
     end
-    
-    def post(path, options={}, raw=false, force_urlencoded=false)
+
+    def post(path, options = {}, raw = false, force_urlencoded = false)
       request(:post, path, options, raw, force_urlencoded)
     end
 
-    def put(path, options={}, raw=false, force_urlencoded=false)
+    def put(path, options = {}, raw = false, force_urlencoded = false)
       request(:put, path, options, raw, force_urlencoded)
     end
 
-    def delete(path, options={}, raw=false, force_urlencoded=false)
+    def delete(path, options = {}, raw = false, force_urlencoded = false)
       request(:delete, path, options, raw, force_urlencoded)
     end
 
@@ -37,6 +37,5 @@ module Reshape
         response.body
       end
     end
-
   end
 end

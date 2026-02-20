@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 unless ENV['CI']
   require 'simplecov'
   SimpleCov.start do
-    add_filter "/spec"
+    add_filter '/spec'
   end
 end
 
@@ -9,7 +11,7 @@ require 'reshape'
 require 'rspec'
 require 'webmock/rspec'
 require 'vcr'
-require 'byebug'
+require 'debug'
 require 'oauth2'
 require 'dotenv/load'
 
@@ -53,11 +55,11 @@ def stub_delete(url)
 end
 
 def fixture_path
-  File.expand_path("../fixtures", __FILE__)
+  File.expand_path('../fixtures', __dir__)
 end
 
 def fixture(file)
-  File.new(fixture_path + '/' + file)
+  File.new("#{fixture_path}/#{file}")
 end
 
 def shapeways_url(url)
@@ -66,28 +68,27 @@ end
 
 def shapeways_client
   Reshape::Client.new({
-    consumer_token: ENV['SHAPEWAYS_CONSUMER_TOKEN'], 
-    consumer_secret: ENV['SHAPEWAYS_CONSUMER_SECRET'], 
-    oauth_token: ENV['SHAPEWAYS_OAUTH_TOKEN'], 
-    oauth_secret: ENV['SHAPEWAYS_OAUTH_SECRET']
-  })
+                        consumer_token: ENV.fetch('SHAPEWAYS_CONSUMER_TOKEN', nil),
+                        consumer_secret: ENV.fetch('SHAPEWAYS_CONSUMER_SECRET', nil),
+                        oauth_token: ENV.fetch('SHAPEWAYS_OAUTH_TOKEN', nil),
+                        oauth_secret: ENV.fetch('SHAPEWAYS_OAUTH_SECRET', nil)
+                      })
 end
 
 def shapeways_oauth_client
+  key = ENV.fetch('SHAPEWAYS_CONSUMER_TOKEN', nil)
+  secret = ENV.fetch('SHAPEWAYS_CONSUMER_SECRET', nil)
 
-  key = ENV['SHAPEWAYS_CONSUMER_TOKEN']
-  secret = ENV['SHAPEWAYS_CONSUMER_SECRET']
-
-  client = OAuth2::Client.new(key, secret, site: "https://api.shapeways.com", token_url: '/oauth2/token')
+  client = OAuth2::Client.new(key, secret, site: 'https://api.shapeways.com', token_url: '/oauth2/token')
 
   access = client.client_credentials.get_token
 
   token = access.token
 
   Reshape::Client.new({
-    consumer_token: nil,
-    consumer_secret: nil,
-    oauth_token: token,
-    oauth_secret: nil,
-  })
+                        consumer_token: nil,
+                        consumer_secret: nil,
+                        oauth_token: token,
+                        oauth_secret: nil
+                      })
 end
