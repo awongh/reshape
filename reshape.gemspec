@@ -14,7 +14,7 @@ Gem::Specification.new do |gem|
   gem.summary       = 'A client for the Shapeways 3D printing API.'
   gem.homepage      = 'https://github.com/phy5ics/reshape'
 
-  gem.required_ruby_version = ['>= 3.2.10', '< 5']
+  gem.required_ruby_version = ['>= 3.2.0', '< 5']
 
   gem.files         = `git ls-files`.split($INPUT_RECORD_SEPARATOR)
   gem.executables   = gem.files.grep(%r{^bin/}).map { |f| File.basename(f) }
